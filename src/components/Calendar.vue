@@ -4,7 +4,7 @@
       <v-col cols="12">
         <v-card>
           <v-card-title>
-            <h2 class="headline font-weight-bold mb-5 text-center">
+            <h2 class="headline font-weight-bold mb-5 text-center text-wrap">
               Ramadan Calendar - 2023 (রমজান ক্যালেন্ডার - ২০২৩)
             </h2>
 
