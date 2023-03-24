@@ -57,6 +57,23 @@
                 {{ data.iftar_dua.en_niyot }}
               </p>
             </div>
+            <hr>
+            <div class="text-center text-wrap mt-5">
+              <p>
+                <strong>Today Date (আজকের তারিখ):</strong>
+                {{ date_format(data.activeDate.date) }} ({{ day_format(data.activeDate.date) }})
+              </p>
+
+              <p>
+                <strong>Today Sehri Time (আজকের সাহরির সময়):</strong>
+                {{ time_format(data.activeDate.date + ' ' + data.activeDate.sehri_time) }}
+              </p>
+
+              <p>
+                <strong>Today Iftar Time (আজকের ইফতারের সময়):</strong>
+                {{ time_format(data.activeDate.date + ' ' + data.activeDate.iftar_time) }}
+              </p>
+            </div>
           </v-card-title>
           <hr>
           <v-card-text>
@@ -128,14 +145,24 @@ const data = reactive({
   calendars : [],
   sehri_dua : null,
   iftar_dua : null,
+  activeDate: null,
 })
 
+// Fetch calendar data
 const fetchCalendars = async () => {
   const response = await fetch('https://gist.githubusercontent.com/mishajib/a45181a514c33f7040e027b2effb7c17/raw/fdacb774c016555bb4365151a6ae4d1d0aba3082/ramandan_calendar_2023.json')
   const calendar = await response.json();
   data.calendars = calendar.calendars;
   data.sehri_dua = calendar.sehri_dua;
   data.iftar_dua = calendar.iftar_dua;
+  await setActiveDate();
+}
+
+// Set active date
+const setActiveDate = async () => {
+  const date = dayjs().format('YYYY-MM-DD');
+  const time = dayjs().format('HH:mm:ss');
+  data.activeDate = data.calendars.find(calendar => calendar.date === date);
 }
 
 onMounted(async () => {
